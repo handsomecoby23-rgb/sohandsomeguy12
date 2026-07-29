@@ -1,0 +1,319 @@
+/* ==========================================
+   Global Variables & Design Tokens
+   ========================================== */
+:root {
+  /* 기본 파스텔 테마 컬러 */
+  --bg-default: #FFFDF8;       /* 부드러운 크림색 기본 배경 */
+  --card-bg: #ffffff;          /* 카드 배경색 (순백색) */
+  --text-main: #333333;        /* 메인 텍스트 컬러 (부드러운 다크 그레이) */
+  --text-sub: #666666;         /* 서브 텍스트 컬러 */
+  --shadow-light: 0 8px 30px rgba(0, 0, 0, 0.04); /* 카드 기본 그림자 */
+  --shadow-hover: 0 15px 35px rgba(0, 0, 0, 0.08); /* 카드 호버 시 그림자 */
+  
+  /* 버튼 및 주요 포인트 색상 */
+  --primary-color: #ffd2d2;    /* 파스텔 핑크 */
+  --primary-hover: #ffc2c2;
+  --primary-text: #5a4b4b;
+  
+  /* 폰트 지정 */
+  --font-family: 'Nunito', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ==========================================
+   Reset & Base Styles
+   ========================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-default);
+  color: var(--text-main);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+  
+  /* 배경색 변경 시 부드럽게 화면 전체 색상이 전환되도록 설정 */
+  transition: background-color 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* 전체 감싸는 컨테이너 */
+.container {
+  width: 100%;
+  max-width: 1000px;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 60px; /* 섹션 간 여백 확보 */
+}
+
+/* ==========================================
+   1. Header Section
+   ========================================== */
+.header {
+  text-align: center;
+  padding: 40px 20px;
+  animation: fadeInDown 0.8s ease-out;
+}
+
+.my-name {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.5px;
+  margin-bottom: 15px;
+  position: relative;
+  display: inline-block;
+}
+
+/* 이름 밑에 꾸밈 요소 (파스텔 밑줄 효과) */
+.my-name::after {
+  content: '';
+  position: absolute;
+  left: 10%;
+  bottom: -4px;
+  width: 80%;
+  height: 8px;
+  background-color: var(--primary-color);
+  border-radius: 4px;
+  z-index: -1;
+  opacity: 0.6;
+}
+
+.my-intro {
+  font-size: 1.15rem;
+  color: var(--text-sub);
+  font-weight: 300;
+  word-break: keep-all; /* 모바일에서 단어 단위 줄바꿈 */
+}
+
+/* ==========================================
+   2. Favorites Section (Card Grid)
+   ========================================== */
+.card-section {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 70px; /* 섹션 간 여백 확보 */
+}
+
+.section-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 35px;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  width: 100%;
+}
+
+/* 카드 컴포넌트 */
+.card {
+  position: relative; /* 외부 링크 아이콘 절대 배치를 위해 추가 */
+  background-color: var(--card-bg);
+  border-radius: 24px; /* 둥글고 부드러운 모서리 */
+  padding: 40px 30px;
+  text-align: center;
+  box-shadow: var(--shadow-light);
+  border: 1px solid rgba(0, 0, 0, 0.02); /* 극도로 미세한 테두리 */
+  
+  /* 마우스 아웃 및 클릭 해제 시 부드럽게 되돌아오도록 transition 적용 */
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+              box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 3. 카드 애니메이션 (Hover Effects) */
+.card:hover {
+  transform: translateY(-8px) scale(1.05); /* 5% 확대 및 살짝 위로 이동 */
+  box-shadow: var(--shadow-hover); /* 더 진하고 깊은 그림자 */
+  cursor: pointer;
+}
+
+/* 클릭 시 카드가 살짝 눌리는(scale 0.98) 느낌 효과 */
+.card:active {
+  transform: translateY(-4px) scale(0.98);
+}
+
+/* 링크로 사용되는 카드 텍스트 스타일 초기화 */
+.card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 우측 상단 외부 링크 아이콘 */
+.link-icon {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  font-size: 1.1rem;
+  color: var(--text-sub);
+  opacity: 0.4;
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+              opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* 호버 시 외부 링크 아이콘이 대각선 방향으로 살짝 이동하는 애니메이션 */
+.card:hover .link-icon {
+  opacity: 0.85;
+  transform: translate(3px, -3px);
+}
+
+.card-emoji {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+  /* 이모지가 공중에 떠 있는 듯한 미세 애니메이션 */
+  transition: transform 0.3s ease;
+}
+
+.card:hover .card-emoji {
+  transform: scale(1.1) rotate(5deg);
+}
+
+/* 카드 이미지 스타일 (원형 앨범 아트) */
+.card-image {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 50%; /* 원형 이미지 */
+  margin-bottom: 20px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.06);
+  border: 4px solid #ffffff;
+  outline: 1px solid rgba(0, 0, 0, 0.04);
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* 카드 호버 시 이미지 미세 회전 및 확대 */
+.card:hover .card-image {
+  transform: scale(1.08) rotate(3deg);
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--text-main);
+}
+
+.card-desc {
+  font-size: 0.95rem;
+  color: var(--text-sub);
+  line-height: 1.6;
+  word-break: keep-all;
+}
+
+/* ==========================================
+   4. Action Section (Button Design)
+   ========================================== */
+.action-section {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.btn {
+  background: white;
+  color: var(--primary-text);
+  border: 2px solid var(--primary-color);
+  font-family: var(--font-family);
+  font-size: 1.05rem;
+  font-weight: 600;
+  padding: 16px 36px;
+  border-radius: 50px; /* 완전 둥글게 */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  cursor: pointer;
+  
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  
+  /* 마우스 오버 및 터치 시 전환 */
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.btn:hover {
+  background-color: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 210, 210, 0.4);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+/* ==========================================
+   Footer Section
+   ========================================== */
+.footer {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #b0b0b0;
+  margin-top: 20px;
+}
+
+/* ==========================================
+   Keyframes & Animations
+   ========================================== */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================
+   Responsive Layout (모바일 및 태블릿 대응)
+   ========================================== */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px 15px;
+    gap: 40px;
+  }
+  
+  .my-name {
+    font-size: 2.3rem;
+  }
+  
+  .my-intro {
+    font-size: 1rem;
+    padding: 0 10px;
+  }
+  
+  /* 카드를 세로 1열로 나란히 배치 */
+  .card-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 0 10px;
+  }
+  
+  .card {
+    padding: 30px 20px;
+  }
+  
+  .card-emoji {
+    font-size: 3rem;
+  }
+  
+  .btn {
+    padding: 14px 30px;
+    font-size: 0.95rem;
+  }
+}
